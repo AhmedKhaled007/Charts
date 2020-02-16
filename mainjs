@@ -1,0 +1,187 @@
+// #region 
+var info = []
+var info1 = []
+let colors = ["#003F5C", "#9372A9", "#EF5675", "#FFA600"]
+    // constructor for tracks
+function tracks(name, percn) {
+    this.track = name
+    this.val = percn
+}
+//#endregion
+
+
+//#region eventsHandeler
+document.getElementById("btn").addEventListener("click", getInfo)
+document.getElementById("btn").addEventListener("click", function() {
+        document.getElementById("svg").innerHTML = ""
+        document.getElementById("canve").innerHTML = ""
+        if (document.getElementsByClassName("map").length == 0) {
+            colorMap()
+        } else {
+            document.body.removeChild(document.getElementsByClassName("map")[0])
+            colorMap()
+
+        }
+
+        if (document.getElementById("pie").checked) {
+            Pie()
+        }
+        if (document.getElementById("don").checked) {
+            Don()
+        }
+        if (document.getElementById("line").checked) {
+            svgLine()
+        }
+        if (document.getElementById("bar").checked) {
+            svgBar()
+        }
+
+    })
+    //#endregion
+
+function getInfo() {
+
+    let track1 = d3.select('#track1').property("value")
+    let track2 = d3.select('#track2').property("value")
+    let track3 = d3.select('#track3').property("value")
+    let track4 = d3.select('#track4').property("value")
+    let x = [track1, track2, track3, track4]
+    let val1 = parseInt(d3.select('#pt1').property("value"))
+    let val2 = parseInt(d3.select('#pt2').property("value"))
+    let val3 = parseInt(d3.select('#pt3').property("value"))
+    let val4 = parseInt(d3.select('#pt4').property("value"))
+    let y = [val1, val2, val3, val4]
+    if (val1 + val2 + val3 + val4 != 100) {
+        alert("wrong numbers input percentage total should be 100")
+        return false
+    }
+    for (let i = 0; i < 4; i++) {
+        if (x[i] == "" || y[i] == "") {
+            alert("please provide all inputs")
+            return false
+        }
+        info[i] = new tracks(x[i], y[i])
+    }
+
+}
+
+
+function Pie() {
+    // get canvas
+    var canv = document.createElement("canvas")
+    canv.setAttribute("class", "canv")
+    document.getElementById("canve").append(canv)
+    canv.width = 300;
+    canv.height = 300;
+    var ctx = canv.getContext("2d")
+
+    function circleSlice(centerX, centerY, radius, startAngle, endAngle, color) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    var startA = 0
+    var p = 0;
+    for (let i in info) {
+        p += info[i].val
+        var endA = p / 50 * Math.PI
+        circleSlice(150, 150, 150, startA, endA, colors[i])
+        var x = 150 + (100 * Math.cos(startA + (endA - startA) / 2))
+        var y = 150 + (100 * Math.sin(startA + (endA - startA) / 2))
+        ctx.font = "20px Comic Sans MS";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.fillText(info[i].val + "%", x, y);
+        startA = endA;
+    }
+    return { circleSlice: circleSlice };
+}
+
+function Don() {
+    var pie = Pie()
+    pie.circleSlice(150, 150, 60, 0, 2 * Math.PI, "white");
+}
+
+
+
+
+
+function svgBar() {
+    var width = 240
+    var height = 260
+    var svg = d3.select("#svg").append("svg")
+        .attr("width", 300)
+        .attr("height", 300)
+    var xScale = d3.scaleBand().range([0, width]).padding(0.4),
+        yScale = d3.scaleLinear().range([height, 0])
+    var g = svg.append("g")
+        .attr("transform", "translate(" + 60 + "," + 10 + ")")
+    xScale.domain(info.map(function(d) { return d.track }))
+    yScale.domain([0, 100])
+    g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(xScale))
+    g.append("g")
+        .call(d3.axisLeft(yScale))
+    g.selectAll(".bar")
+        .data(info)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return xScale(d.track) })
+        .attr("y", function(d) { return yScale(d.val) })
+        .attr("width", xScale.bandwidth())
+        .attr("height", function(d) { return height - yScale(d.val) })
+}
+
+
+function svgLine() {
+    var margin = { top: 10, right: 30, bottom: 30, left: 60 },
+        width = 300 - margin.left - margin.right,
+        height = 300 - margin.top - margin.bottom
+    var svg = d3.select("#svg")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    var x1 = d3.scaleBand().range([0, width]).domain(info.map(function(d) { return d.track }))
+    var y = d3.scaleLinear().range([height, 0]).domain([0, 100])
+    g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x1))
+    g.append("g")
+        .call(d3.axisLeft(y))
+        // Add the line
+    g.append("path")
+        .attr("transform", "translate(" + 26 + "," + 0 + ")")
+        .datum(info)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+            .x(function(d) { return x1(d.track) })
+            .y(function(d) { return y(d.val) }))
+}
+
+
+function colorMap() {
+    var map = document.createElement("div")
+    map.className = "map"
+    for (let i = 0; i < 4; i++) {
+        var line = document.createElement("div")
+        line.className = "line"
+        var color = document.createElement("span")
+        color.className = "color"
+        color.style.backgroundColor = colors[i]
+        line.appendChild(color)
+        var tk = document.createElement("span")
+        tk.innerText = info[i].track + "  " + info[i].val + "%"
+        line.appendChild(tk)
+        map.appendChild(line)
+    }
+    document.body.appendChild(map)
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <title>Chart</title>
+</head>
+
+<body>
+    <div class="fields">
+        <form>
+            <fieldset>
+                <div class="form-input">
+                    <input type="text" id="track1" placeholder="First label">
+                </div>
+
+                <div class="form-input">
+                    <input type="text" id="pt1" placeholder="percentage">
+                </div>
+
+                <div class="form-input">
+                    <input type="text" id="track2" placeholder="Secend Label">
+                </div>
+
+                <div class="form-input">
+                    <input type="text" id="pt2" placeholder="percentage">
+                </div>
+
+                <div class="form-input">
+                    <input type="text" id="track3" placeholder="3rd Label">
+                </div>
+
+                <div class="form-input">
+                    <input type="text" id="pt3" placeholder="percentage">
+                </div>
+
+                <div class="form-input">
+                    <input type="text" id="track4" placeholder="4th Label">
+
+                </div>
+                <div class="form-input">
+
+                    <input type="text" id="pt4" placeholder="percentage">
+                </div>
+            </fieldset>
+        </form>
+        <div class="checks">
+            <div class="form-input">
+                <input type="checkbox" id="pie" checked> Pie Chart
+            </div>
+
+            <div class="form-input">
+                <input type="checkbox" id="don" checked>Doughnt Chart
+            </div>
+            <div class="form-input">
+                <input type="checkbox" id="bar" checked>Bar Char
+            </div>
+
+            <div class="form-input">
+
+                <input type="checkbox" id="line" checked>Line Chart
+            </div>
+
+        </div>
+        <div class="btn">
+            <button type="button" id="btn"> Draw</button>
+        </div>
+
+    </div>
+
+
+
+    <div class="charts">
+        <div class="in" id="canve">
+
+        </div>
+        <div class="in" id="svg">
+
+        </div>
+    </div>
+    <!-- 
+    <div class="map">
+        <div class="line">
+            <span class="color"></span>
+            <span>SD 15%</span>
+        </div>
+        <div class="line">
+            <span class="color"></span>
+            <span>SD 15%</span>
+
+        </div>
+        <div class="line">
+            <span class="color"></span>
+            <span>SD 15%</span>
+
+        </div>
+        <div class="line">
+            <span class="color"></span>
+            <span>SD 15%</span>
+
+        </div>
+    </div> -->
+    <script src="main.js"></script>
+</body>
+
+</html>

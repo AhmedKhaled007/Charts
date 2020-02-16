@@ -1,0 +1,79 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.in {
+    display: inline-block;
+}
+
+.bar:nth-of-type(1) {
+    fill: #003F5C
+}
+
+.bar:nth-of-type(2) {
+    fill: #9372A9
+}
+
+.bar:nth-of-type(3) {
+    fill: #EF5675
+}
+
+.bar:nth-of-type(4) {
+    fill: #FFA600
+}
+
+.fields {
+    text-align: center;
+    padding: 10px;
+}
+
+fieldset {
+    padding: 10px;
+    width: 850px;
+    margin: auto;
+}
+
+#canve {
+    margin-left: 20px;
+}
+
+.canv {
+    margin: 10px;
+}
+
+.form-input {
+    display: inline-block;
+    padding: 3px 10px;
+    margin: 3px 10px;
+}
+
+.checks {
+    width: 400px;
+    margin: auto
+}
+
+button {
+    width: 100px;
+    padding: 5px 10px;
+}
+
+.map {
+    margin: auto;
+    margin-top: 20px;
+    width: 130px;
+    height: 160px;
+    background-color: antiquewhite;
+    border: 1.5px solid black;
+}
+
+.color {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    margin-right: 5px;
+}
+
+.line {
+    margin: 17px 8px;
+}
